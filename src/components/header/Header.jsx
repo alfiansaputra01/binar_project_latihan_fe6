@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import { Navbar, Container, Nav } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { getProfile, logout } from "../redux/actions/auth";
+import { getProfile, logout } from "../../redux/actions/auth";
+import "./Header.css";
 
 function Header() {
   const dispatch = useDispatch();
@@ -20,7 +21,7 @@ function Header() {
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
         <Navbar.Brand as={Link} to="/">
-          Auth App
+          <img className="header__icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/IMDB_Logo_2016.svg/2560px-IMDB_Logo_2016.svg.png" />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
@@ -28,8 +29,14 @@ function Header() {
             <Nav.Link as={Link} to="/">
               Home
             </Nav.Link>
-            <Nav.Link as={Link} to={"/posts"}>
-              Posts
+            <Nav.Link as={Link} to={"/movies/popular"}>
+              Popular
+            </Nav.Link>
+            <Nav.Link as={Link} to={"/movies/top_rated"}>
+              Top Rated
+            </Nav.Link>
+            <Nav.Link as={Link} to={"/movies/upcoming"}>
+              Upcoming
             </Nav.Link>
           </Nav>
           <Nav>

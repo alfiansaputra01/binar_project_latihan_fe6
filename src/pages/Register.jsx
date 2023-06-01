@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { register } from "../redux/actions/auth";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 function Register() {
   const dispatch = useDispatch();
@@ -13,6 +14,7 @@ function Register() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
+  const [crslMovie, setCrslMovie] = useState(null);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -27,7 +29,29 @@ function Register() {
     dispatch(register(data, navigate));
   };
 
+  const crsl1 = async () => {
+    axios
+      .get('https://api.themoviedb.org/3/movie/popular?api_key=4e44d9029b1270a757cddc766a1bcb63&language=en-US')
+      .then((response) => {
+        console.log(response.data.results)
+        setCrslMovie(response.data.results.slice(0,1))
+      })
+      .catch((error) => console.log(error))
+  }
+
+  useEffect(() => {
+      crsl1()
+  }, [])
+
   return (
+    <div className="h-[100vh]">
+    {
+        crslMovie?.map((cr) => (
+          <div className='h-[100vh] w-full grid place-items-center'
+          style={{ backgroundImage: `url(https://image.tmdb.org/t/p/original${cr.backdrop_path})`,
+          backgroundSize: "cover", 
+          backgroundPosition: "center",
+          boxShadow: "0px 0px 0px 0px #00000040,inset 0 0 0 1000px rgba(0,0,0,.7)" }}>
     <Container className="p-4">
       <Row>
         <Col>
@@ -83,6 +107,10 @@ function Register() {
         </Col>
       </Row>
     </Container>
+    </div>
+      ))
+      }
+    </div>
   );
 }
 
